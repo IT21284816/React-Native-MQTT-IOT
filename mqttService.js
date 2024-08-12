@@ -1,32 +1,24 @@
+// mqttService.js
 import mqtt from 'mqtt';
 
 // Define your MQTT broker URL
-const BROKER_URL = 'mqtt://broker.hivemq.com:1883'; // HiveMQ public broker, port 1883
+const BROKER_URL = 'mqtt://your-broker-url:port'; // Replace with your broker's URL
 
-// Create a client instance with your client ID
+// Create a client instance
 const client = mqtt.connect(BROKER_URL, {
-  clientId: 'f45e55f7-a0eb-4795-841f-1a3c7c08db68', // Your specific client ID
-  clean: true, // Optional: set to false to receive retained messages on reconnection
+  // Optional configuration
+  username: 'your-username',
+  password: 'your-password',
 });
 
 client.on('connect', () => {
-  console.log(`Connected to MQTT broker with client ID: ${client.options.clientId}`);
-  // Subscribe to the accelerometer topic
-  client.subscribe('sensor/accelerometer', (err) => {
+  console.log('Connected to MQTT broker');
+  // Subscribe to a topic
+  client.subscribe('your/topic', (err) => {
     if (err) {
       console.error('Subscription error:', err);
-    } else {
-      console.log('Successfully subscribed to topic: sensor/accelerometer');
     }
   });
-});
-
-client.on('error', (err) => {
-  console.error('MQTT Connection Error:', err);
-});
-
-client.on('close', () => {
-  console.log('MQTT connection closed');
 });
 
 export default client;

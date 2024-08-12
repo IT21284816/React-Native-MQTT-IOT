@@ -4,14 +4,11 @@ import { StyleSheet, Text, View } from 'react-native';
 import mqttClient from './mqttService'; // Import the MQTT service
 
 export default function App() {
-  const [message, setMessage] = useState('Waiting for message...');
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     const handleMessage = (topic, message) => {
-      if (topic === 'sensor/accelerometer') {
-        console.log(`Message received on topic ${topic}: ${message}`);
-        setMessage(message.toString());
-      }
+      setMessage(message.toString());
     };
 
     mqttClient.on('message', handleMessage);
