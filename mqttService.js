@@ -1,67 +1,38 @@
-// mqttService.js
+// MqttClient.js
 import mqtt from 'mqtt';
+import { useState, useEffect } from 'react';
 
-let client;
-let messageCallbacks = [];
+const useMqttClient = (brokerUrl, clientId, topic) => {
+  const [message, setMessage] = useState(null);
 
-// Connect to the MQTT broker
-export const connectMQTT = () => {
-  const host = 'mqtt://broker.hivemq.com';
-  const options = {
-    clientId: 'f45e55f7-a0eb-4795-841f-1a3c7c08db68', // Your client ID
-    clean: true, // Clean session
-    connectTimeout: 4000, // Connection timeout in ms
-  };
+  useEffect(() => {
+    // Connect to the MQTT broker with the client ID
+    const client = mqtt.connect(brokerUrl, { clientId });
 
-  client = mqtt.connect(host, options);
+    // Event handler when the client connects to the broker
+    client.on('connect', () => {
+      console.log('Connected to MQTT broker');
+      // Subscribe to the topic
+      client.subscribe(topic, (err) => {
+        if (err) {
+          console.error('Subscribe error:', err);
+        }
+      });
+    });
 
-  client.on('connect', () => {
-    console.log('Connected to MQTT broker');
-  });
+    // Event handler when a message is received
+    client.on('message', (topic, payload) => {
+      console.log(`Received message on topic ${topic}: ${payload.toString()}`);
+      setMessage(payload.toString());
+    });
 
-  client.on('error', (err) => {
-    console.error('MQTT Error:', err);
-  });
+    // Clean up on component unmount
+    return () => {
+      client.end();
+    };
+  }, [brokerUrl, clientId, topic]);
 
-  client.on('reconnect', () => {
-    console.log('Reconnecting to MQTT broker');
-  });
-
-  client.on('close', () => {
-    console.log('Disconnected from MQTT broker');
-  });
-
-  client.on('message', (topic, message) => {
-    console.log(`Received message on topic ${topic}: ${message.toString()}`);
-    // Notify all registered message handlers
-    messageCallbacks.forEach(callback => callback(topic, message.toString()));
-  });
-
-  return client;
+  return message;
 };
 
-// Disconnect from the MQTT broker
-export const disconnectMQTT = () => {
-  if (client) {
-    client.end();
-  }
-};
-
-// Subscribe to a topic
-export const subscribe = (topic) => {
-  if (client) {
-    client.subscribe(topic);
-  }
-};
-
-// Publish a message to a topic
-export const publish = (topic, message) => {
-  if (client) {
-    client.publish(topic, message);
-  }
-};
-
-// Register a callback to handle messages
-export const onMessageReceived = (callback) => {
-  messageCallbacks.push(callback);
-};
+export default useMqttClient;
