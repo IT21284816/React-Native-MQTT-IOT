@@ -1,41 +1,46 @@
-import { AsyncStorage } from '@react-native-async-storage/async-storage';
-import init from 'react_native_mqtt';
+// mqttClient.js
+import mqtt from 'mqtt';
 
-init({
-  size: 10000,
-  storageBackend: AsyncStorage,
-  defaultExpires: 1000 * 3600 * 24,
-  enableCache: true,
-  sync: {},
-});
+const clientId = 'f45e55f7-a0eb-4795-841f-1a3c7c08db68';
+const host = 'broker.hivemq.com';
+const topic = 'sensor/accelerometer';
 
-const options = {
-  host: 'broker.hivemq.com',
-  port: 1883,
-  path: '',
-  id: 'f45e55f7-a0eb-4795-841f-1a3c7c08db68', // Your MQTT Client ID
+let client;
+
+export const connectMQTT = (onMessageReceived, onConnectError) => {
+  client = mqtt.connect(`wss://${host}:443`, {
+    clientId,
+    clean: true,
+  });
+
+  client.on('connect', () => {
+    console.log('Connected to MQTT broker');
+    client.subscribe(topic, (err) => {
+      if (err) {
+        console.error('Subscription error:', err);
+        if (onConnectError) onConnectError(err);
+      }
+    });
+  });
+
+  client.on('message', (topic, message) => {
+    const messageString = message.toString();
+    console.log('Message received:', messageString);
+    if (onMessageReceived) onMessageReceived(topic, messageString);
+  });
+
+  client.on('error', (err) => {
+    console.error('Connection error:', err);
+    if (onConnectError) onConnectError(err);
+  });
+
+  client.on('close', () => {
+    console.log('MQTT connection closed');
+  });
 };
 
-const client = new Paho.MQTT.Client(options.host, options.port, options.path);
-
-client.onConnectionLost = (responseObject) => {
-  if (responseObject.errorCode !== 0) {
-    console.log('Connection Lost:', responseObject.errorMessage);
+export const disconnectMQTT = () => {
+  if (client) {
+    client.end();
   }
 };
-
-client.onMessageArrived = (message) => {
-  console.log('Message Arrived:', message.payloadString);
-};
-
-client.connect({
-  onSuccess: () => {
-    console.log('Connected to MQTT broker');
-    client.subscribe('sensor/accelerometer');
-  },
-  onFailure: (error) => {
-    console.error('Connection failed:', error);
-  },
-});
-
-export default client;

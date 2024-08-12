@@ -1,33 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import mqttClient from './mqttService';
+// App.js
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView, Text, View, Button } from 'react-native';
+import { connectMQTT, disconnectMQTT } from './mqttClient';
 
-export default function App() {
-  const [message, setMessage] = useState('Waiting for message...');
+const App = () => {
+  const [messages, setMessages] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    mqttClient.onMessageArrived = (msg) => {
-      console.log(`Message received: ${msg.payloadString}`);
-      setMessage(msg.payloadString);
+    const onMessageReceived = (topic, message) => {
+      setMessages(prevMessages => [...prevMessages, { topic, message }]);
     };
 
+    const onConnectError = (err) => {
+      setError(`Connection Error: ${err.message}`);
+    };
+
+    connectMQTT(onMessageReceived, onConnectError);
+
     return () => {
-      mqttClient.disconnect();
+      disconnectMQTT();
     };
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text>MQTT Message: {message}</Text>
-    </View>
+    <SafeAreaView>
+      <View>
+        <Text>MQTT Messages:</Text>
+        {messages.map((msg, index) => (
+          <Text key={index}>{`Topic: ${msg.topic}, Message: ${msg.message}`}</Text>
+        ))}
+        {error && <Text style={{ color: 'red' }}>{error}</Text>}
+        <Button title="Disconnect" onPress={disconnectMQTT} />
+      </View>
+    </SafeAreaView>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-  },
-});
+export default App;
