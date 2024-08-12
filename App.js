@@ -8,7 +8,9 @@ export default function App() {
 
   useEffect(() => {
     const handleMessage = (topic, message) => {
-      setMessage(message.toString());
+      if (topic === 'sensor/accelerometer') {
+        setMessage(message.toString());
+      }
     };
 
     mqttClient.on('message', handleMessage);
