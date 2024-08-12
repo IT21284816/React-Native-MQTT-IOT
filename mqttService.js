@@ -15,8 +15,18 @@ client.on('connect', () => {
   client.subscribe('sensor/accelerometer', (err) => {
     if (err) {
       console.error('Subscription error:', err);
+    } else {
+      console.log('Successfully subscribed to topic: sensor/accelerometer');
     }
   });
+});
+
+client.on('error', (err) => {
+  console.error('MQTT Connection Error:', err);
+});
+
+client.on('close', () => {
+  console.log('MQTT connection closed');
 });
 
 export default client;
