@@ -1,29 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import mqttClient from './mqttService'; // Import the MQTT service
+import mqttClient from './mqttService';
 
 export default function App() {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState('Waiting for message...');
 
   useEffect(() => {
-    const handleMessage = (topic, message) => {
-      setMessage(message.toString());
+    mqttClient.onMessageArrived = (msg) => {
+      console.log(`Message received: ${msg.payloadString}`);
+      setMessage(msg.payloadString);
     };
 
-    mqttClient.on('message', handleMessage);
-
-    // Cleanup on unmount
     return () => {
-      mqttClient.off('message', handleMessage);
-      mqttClient.end();
+      mqttClient.disconnect();
     };
   }, []);
 
   return (
     <View style={styles.container}>
       <Text>MQTT Message: {message}</Text>
-      <StatusBar style="auto" />
     </View>
   );
 }
@@ -31,8 +26,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
   },
 });
