@@ -7,6 +7,11 @@
   <!-- These require runtime permissions on M -->
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <!-- Permissions for receiving notifications -->  
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
   <!-- END OPTIONAL PERMISSIONS -->
 
   <queries>
@@ -26,5 +31,22 @@
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>
+
+     <!-- Ensure to add the following service and receiver -->
+    <service android:name=".MyFirebaseMessagingService" android:exported="true"/>
+    <receiver android:name=".MyFirebaseReceiver" android:exported="true">
+        <intent-filter>
+            <action android:name="com.google.firebase.MESSAGING_EVENT" />
+        </intent-filter>
+    </receiver>
+
+    <!-- Add this to configure the notification channels on Android 8.0 (API level 26) and above -->
+    <meta-data
+        android:name="com.google.firebase.messaging.default_notification_channel_id"
+        android:value="@string/default_notification_channel_id" />
+
+    <meta-data
+        android:name="com.google.firebase.messaging.default_notification_color"
+        android:resource="@color/colorAccent" />
   </application>
 </manifest>

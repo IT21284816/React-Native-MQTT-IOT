@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">my-react-app</string>
+    <string name="default_notification_channel_id">default_channel_id</string>
+
 </resources>
