@@ -12,7 +12,7 @@ init({
   sync: {},
 });
 
-const MQTTClient = () => {
+const App = () => {
   const [messages, setMessages] = useState([]);
   const [client, setClient] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
@@ -100,4 +100,4 @@ const MQTTClient = () => {
   );
 };
 
-export default MQTTClient;
+export default App;
