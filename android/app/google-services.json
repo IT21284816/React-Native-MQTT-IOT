@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "794076840442",
+    "project_id": "notification-bf4a8",
+    "storage_bucket": "notification-bf4a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794076840442:android:2cba748a2adb1ccb4ea443",
+        "android_client_info": {
+          "package_name": "com.myreactapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2iGGpf_Ha0BU1-vxrry-eRMz2BXiYV7Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
