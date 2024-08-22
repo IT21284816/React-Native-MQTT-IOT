@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Button, FlatList } from 'react-native';
-import init from 'react_native_mqtt';
-import { AsyncStorage } from '@react-native-async-storage/async-storage';
-
-init({
-  size: 10000,
-  storageBackend: AsyncStorage,
-  defaultExpires: 1000 * 3600 * 24,
-  enableCache: true,
-  reconnect: true,
-  sync: {},
-});
+import messaging from '@react-native-firebase/messaging';
+import { onMessageListener } from './messagehandler'; // Import your message handler
+import { Paho } from 'paho-mqtt';
 
 const App = () => {
   const [messages, setMessages] = useState([]);
@@ -34,6 +26,29 @@ const App = () => {
     mqttClient.onMessageArrived = (message) => {
       console.log('Message Arrived:', message.payloadString);
       setMessages((prevMessages) => [...prevMessages, message.payloadString]);
+      
+      // Trigger Firebase notification for new messages
+      messaging()
+        .getToken()
+        .then(fcmToken => {
+          if (fcmToken) {
+            // Send a message via FCM
+            fetch('https://fcm.googleapis.com/fcm/send', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'key=YOUR_SERVER_KEY', // Replace with your server key
+              },
+              body: JSON.stringify({
+                to: fcmToken,
+                notification: {
+                  title: 'New MQTT Message',
+                  body: message.payloadString,
+                },
+              }),
+            }).catch(error => console.error('FCM Error:', error));
+          }
+        });
     };
 
     setClient(mqttClient);
@@ -69,6 +84,31 @@ const App = () => {
     }
   };
 
+  useEffect(() => {
+    onMessageListener(setMessages); // Register foreground message listener
+    messaging().requestPermission()
+      .then(authStatus => {
+        const enabled =
+          authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+          authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+        if (enabled) {
+          console.log('Authorization status:', authStatus);
+        }
+      });
+
+    const unsubscribe = messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log('Notification caused app to open from background state:', remoteMessage.notification);
+    });
+
+    messaging().getInitialNotification().then(remoteMessage => {
+      if (remoteMessage) {
+        console.log('Notification caused app to open from quit state:', remoteMessage.notification);
+      }
+    });
+
+    return unsubscribe; // Clean up the listener on unmount
+  }, []);
+
   return (
     <View style={{ padding: 20 }}>
       <View style={{ flexDirection: 'row', marginTop: 60 }}>
@@ -85,7 +125,6 @@ const App = () => {
         />
       </View>
 
-      {/* Display the connection status */}
       <Text style={{ marginTop: 20, fontWeight: 'bold', fontSize: 16 }}>
         Connection Status: {isConnected ? 'Connected' : 'Disconnected'}
       </Text>
