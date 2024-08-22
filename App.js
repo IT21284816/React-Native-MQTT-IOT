@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Button, FlatList } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import { onMessageListener } from './messagehandler'; // Import your message handler
+import '@react-native-firebase/app';
 import { Paho } from 'paho-mqtt';
 
 const App = () => {

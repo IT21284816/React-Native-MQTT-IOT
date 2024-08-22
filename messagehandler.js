@@ -1,5 +1,6 @@
 import messaging from '@react-native-firebase/messaging';
 import { Alert } from 'react-native';
+import '@react-native-firebase/app';
 
 // Handle background and quit state messages
 messaging().setBackgroundMessageHandler(async (remoteMessage) => {
