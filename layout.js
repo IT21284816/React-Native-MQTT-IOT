@@ -1,13 +1,16 @@
 // Layout.js
 import React from 'react';
-import { View, Text, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, StatusBar, TouchableOpacity  } from 'react-native';
 
-const Layout = ({ children }) => {
+const Layout = ({ children, onExit }) => {
   return (
     <View style={styles.container}>
         <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
       <View style={styles.header}>
         <Text style={styles.headerText}>MQTT Client</Text>
+        <TouchableOpacity onPress={onExit} style={styles.exitButton}>
+          <Text style={styles.exitButtonText}>Exit</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.content}>
         {children}
@@ -35,6 +38,11 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 20,
+  },
+  exitButtonText: {
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, FlatList } from 'react-native';
+import { View, Text, Button, FlatList, Alert, BackHandler } from 'react-native';
 import init from 'react_native_mqtt';
 import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import Layout from './layout';
@@ -70,8 +70,15 @@ const App = () => {
     }
   };
 
+  const handleExit = () => {
+    Alert.alert('Exit', 'Are you sure you want to exit?', [
+      { text: 'Cancel' },
+      { text: 'OK', onPress: () => BackHandler.exitApp() }, // Exit the app
+    ]);
+  };
+
   return (
-    <Layout>
+    <Layout onExit={handleExit}>
     <View style={{ padding: 20 }}>
       <View style={{ flexDirection: 'row', marginTop: 60 }}>
         <Button
