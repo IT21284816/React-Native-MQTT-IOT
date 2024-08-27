@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, FlatList, Alert, BackHandler, StyleSheet  } from 'react-native';
+import { View, Text, Button, FlatList, Alert, BackHandler, StyleSheet, ImageBackground  } from 'react-native';
 import init from 'react_native_mqtt';
 import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import Layout from './layout';
@@ -136,10 +136,17 @@ const styles = StyleSheet.create({
   },
   messageBox: {
     borderWidth: 1,
-    borderColor: '#ccc', // You can customize this color
+    borderColor: '#ccc', // Border color
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Transparent background
     padding: 10,
     marginBottom: 10,
-    borderRadius: 5, // Optional: adds rounded corners
+    borderRadius: 5,
+    // Shadow properties
+    shadowColor: '#000', // Shadow color
+    shadowOffset: { width: 0, height: 2 }, // Shadow offset
+    shadowOpacity: 0.3, // Shadow opacity
+    shadowRadius: 4, // Shadow blur radius
+    elevation: 4, // Elevation for Android shadow
   },
   messageText: {
     fontSize: 16,
