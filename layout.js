@@ -22,10 +22,10 @@ const Layout = ({ children, onExit }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#0071e8',
   },
   header: {
-    backgroundColor: '#7803ff', // Purple color
+    //backgroundColor: 'rgba(255, 255, 255, 0.8)', // Purple color
     paddingVertical: 20,
     paddingHorizontal: 20,
     flexDirection: 'row', // Align items in a row
@@ -34,12 +34,12 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 24,
-    color: 'white',
+    color: 'black',
     fontWeight: 'bold',
   },
   content: {
     flex: 1,
-    padding: 20,
+    padding: 0,
   },
   exitButtonText: {
     fontSize: 18,

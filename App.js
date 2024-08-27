@@ -85,8 +85,11 @@ const App = () => {
           Connection Status: {isConnected ? 'Connected' : 'Disconnected'}
         </Text>
       </View>
-    <View style={{ padding: 0 }}>
-      <View style={{ flexDirection: 'row', marginTop: 60 }}>
+
+      <ImageBackground source={require('./images/background.jpg')} style={styles.background}>
+
+    <View style={{ padding: 10 }}>
+      <View style={{ flexDirection: 'row', marginTop: 15 }}>
         <Button
           title="Connect"
           onPress={connectClient}
@@ -111,7 +114,7 @@ const App = () => {
         <Text style={styles.messageText}>{item}</Text>
         </View>}
       />
-    </View>
+    </View></ImageBackground>
     </Layout>
   );
 };
@@ -119,7 +122,7 @@ const App = () => {
 const styles = StyleSheet.create({
   statusContainer: {
     padding: 5,
-    borderRadius: 5,
+    borderRadius: 0,
     margin: 0,
     alignItems: 'center',
   },
@@ -151,5 +154,12 @@ const styles = StyleSheet.create({
   messageText: {
     fontSize: 16,
   },
+  background: {
+    flex: 1,
+    width: '100%', // Ensures the image covers the full width
+    height: '100%', // Ensures the image covers the full height
+    resizeMode: 'cover', // Adjusts the image to cover the entire container
+  },
+  
 });
 export default App;
