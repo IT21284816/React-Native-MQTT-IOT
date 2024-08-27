@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Button, FlatList } from 'react-native';
 import init from 'react_native_mqtt';
 import { AsyncStorage } from '@react-native-async-storage/async-storage';
+import Layout from './layout';
 
 init({
   size: 10000,
@@ -70,6 +71,7 @@ const App = () => {
   };
 
   return (
+    <Layout>
     <View style={{ padding: 20 }}>
       <View style={{ flexDirection: 'row', marginTop: 60 }}>
         <Button
@@ -97,6 +99,7 @@ const App = () => {
         renderItem={({ item }) => <Text>{item}</Text>}
       />
     </View>
+    </Layout>
   );
 };
 
