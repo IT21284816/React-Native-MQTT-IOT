@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, FlatList, Alert, BackHandler } from 'react-native';
+import { View, Text, Button, FlatList, Alert, BackHandler, StyleSheet  } from 'react-native';
 import init from 'react_native_mqtt';
 import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import Layout from './layout';
@@ -79,7 +79,13 @@ const App = () => {
 
   return (
     <Layout onExit={handleExit}>
-    <View style={{ padding: 20 }}>
+       {/* Display the connection status */}
+       <View style={[styles.statusContainer, isConnected ? styles.connected : styles.disconnected]}>
+        <Text style={styles.statusText}>
+          Connection Status: {isConnected ? 'Connected' : 'Disconnected'}
+        </Text>
+      </View>
+    <View style={{ padding: 0 }}>
       <View style={{ flexDirection: 'row', marginTop: 60 }}>
         <Button
           title="Connect"
@@ -94,10 +100,7 @@ const App = () => {
         />
       </View>
 
-      {/* Display the connection status */}
-      <Text style={{ marginTop: 20, fontWeight: 'bold', fontSize: 16 }}>
-        Connection Status: {isConnected ? 'Connected' : 'Disconnected'}
-      </Text>
+     
 
       <Text style={{ marginTop: 20 }}>MQTT Messages:</Text>
       <FlatList
@@ -110,4 +113,23 @@ const App = () => {
   );
 };
 
+const styles = StyleSheet.create({
+  statusContainer: {
+    padding: 5,
+    borderRadius: 5,
+    margin: 0,
+    alignItems: 'center',
+  },
+  statusText: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: 'white',
+  },
+  connected: {
+    backgroundColor: '#03e700',
+  },
+  disconnected: {
+    backgroundColor: 'red',
+  },
+});
 export default App;

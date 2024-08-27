@@ -25,10 +25,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
   },
   header: {
-    backgroundColor: '#7803ff',
-    padding: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#7803ff', // Purple color
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    flexDirection: 'row', // Align items in a row
+    alignItems: 'center', // Vertically center items
+    justifyContent: 'space-between', // Space items to the ends
   },
   headerText: {
     fontSize: 24,
