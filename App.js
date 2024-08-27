@@ -102,11 +102,14 @@ const App = () => {
 
      
 
-      <Text style={{ marginTop: 20 }}>MQTT Messages:</Text>
+      <Text style={{ marginTop: 30, marginBottom:20, fontStyle: 'italic', fontSize:16 }}>MQTT Messages:</Text>
       <FlatList
         data={messages}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => <Text>{item}</Text>}
+        renderItem={({ item }) => 
+          <View style={styles.messageBox}>
+        <Text style={styles.messageText}>{item}</Text>
+        </View>}
       />
     </View>
     </Layout>
@@ -130,6 +133,16 @@ const styles = StyleSheet.create({
   },
   disconnected: {
     backgroundColor: 'red',
+  },
+  messageBox: {
+    borderWidth: 1,
+    borderColor: '#ccc', // You can customize this color
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 5, // Optional: adds rounded corners
+  },
+  messageText: {
+    fontSize: 16,
   },
 });
 export default App;
