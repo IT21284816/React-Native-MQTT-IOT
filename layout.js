@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#0078e5',
     paddingVertical: 20,
     paddingHorizontal: 20,
-    flexDirection: 'row', // Align items in a row
+    flexDirection: 'row', 
     alignItems: 'center', // Vertically center items
     justifyContent: 'space-between', // Space items to the ends
   },

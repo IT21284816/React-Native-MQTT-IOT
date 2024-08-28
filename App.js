@@ -88,8 +88,8 @@ const App = () => {
 
       <ImageBackground source={require('./images/background.jpg')} style={styles.background}>
 
-    <View style={{ padding: 20 }}>
-      <View style={{ flexDirection: 'row', marginTop: 10, }}>
+    <View style={{ padding: 20, }}>
+      <View style={{ flexDirection: 'row', marginTop: 30, }}>
         <Button
           title="Connect"
           onPress={connectClient}
@@ -142,10 +142,10 @@ const styles = StyleSheet.create({
   messageBox: {
     borderWidth: 1,
     borderColor: '#ccc', // Border color
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Transparent background
+    backgroundColor: 'rgba(255, 255, 255, 0.5)', // Transparent background
     padding: 10,
     marginBottom: 10,
-    borderRadius: 5,
+    borderRadius: 10,
     // Shadow properties
     shadowColor: '#000', // Shadow color
     shadowOffset: { width: 0, height: 2 }, // Shadow offset
@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
   },
   messageText: {
     fontSize: 16,
+    padding:5,
   },
   background: {
     flex: 1,
