@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
   },
   header: {
-    backgroundColor: '#0078e5', // Purple color
+    backgroundColor: '#0078e5',
     paddingVertical: 20,
     paddingHorizontal: 20,
     flexDirection: 'row', // Align items in a row
