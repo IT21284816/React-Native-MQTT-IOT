@@ -88,8 +88,8 @@ const App = () => {
 
       <ImageBackground source={require('./images/background.jpg')} style={styles.background}>
 
-    <View style={{ padding: 10 }}>
-      <View style={{ flexDirection: 'row', marginTop: 15 }}>
+    <View style={{ padding: 20 }}>
+      <View style={{ flexDirection: 'row', marginTop: 10, }}>
         <Button
           title="Connect"
           onPress={connectClient}
@@ -160,6 +160,7 @@ const styles = StyleSheet.create({
     height: '100%', // Ensures the image covers the full height
     resizeMode: 'cover', // Adjusts the image to cover the entire container
   },
+
   
 });
 export default App;
