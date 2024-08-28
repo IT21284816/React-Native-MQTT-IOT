@@ -28,6 +28,7 @@
     "react-dom": "18.2.0",
     "react-native": "0.74.5",
     "react-native-background-fetch": "^4.2.5",
+    "react-native-linear-gradient": "^2.8.3",
     "react-native-mqtt": "^0.1.0-beta4",
     "react-native-mqtt-client": "^0.0.1",
     "react-native-push-notification": "^8.1.1",
