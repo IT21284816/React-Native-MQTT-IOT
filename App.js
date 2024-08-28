@@ -105,8 +105,8 @@ const App = () => {
 
      
 
-      <View style={{ marginTop: 30, marginBottom: 20, backgroundColor: '#00b7ce', padding: 10,maxWidth: 200, borderRadius: 5 }}>
-        <Text style={{ fontStyle: 'italic', fontSize: 16}}>MQTT Messages:</Text>
+      <View style={{ marginTop: 30, marginBottom: 20, backgroundColor: '#00b7ce', padding: 10,maxWidth: 170, borderRadius: 5 }}>
+        <Text style={{ fontStyle: 'italic',fontWeight: 'bold', fontSize: 18, color: 'white'}}>MQTT Messages :</Text>
       </View>
       <FlatList
         data={messages}
