@@ -22,7 +22,7 @@ const App = () => {
     const mqttClient = new Paho.MQTT.Client(
       'broker.hivemq.com',
       8884,
-      '208d1aef-fa4f-48ee-a507-07fb6d7ec77d'
+      '5f7f2334-107b-41ed-89ee-6a8dee6e266c'
     );
 
     mqttClient.onConnectionLost = (responseObject) => {
@@ -52,7 +52,7 @@ const App = () => {
         onSuccess: () => {
           console.log('Connected');
           setIsConnected(true);
-          client.subscribe('95a05c0f-57a9-424a-be9b-2adfe3880708');
+          client.subscribe('duhun123');
         },
         onFailure: (err) => {
           console.log('Connection Failed:', err);
